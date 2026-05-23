@@ -1,8 +1,8 @@
 {
   "name": "AiRepoBlueprint",
-  "version": "1.3.0",
+  "version": "1.3.2",
   "description": "Reusable template-driven AI configuration blueprint for software repositories.",
-  "templateRoot": "templates",
+  "templateRoot": "blueprint-files-for-new-repos",
   "toolsPath": ".blueprint/tools.json",
   "ownershipPath": ".blueprint/ownership.json",
   "schemaPath": ".blueprint/schema.json",
@@ -30,25 +30,25 @@
     { "path": "docs/ai", "ownership": "customizable" }
   ],
   "sharedFiles": [
-    { "source": "shared/README.md", "target": "README.md", "render": true, "ownership": "customizable" },
-    { "source": "shared/CHANGELOG.md", "target": "CHANGELOG.md", "render": true, "ownership": "customizable" },
-    { "source": "shared/.blueprint/README.md", "target": ".blueprint/README.md", "render": true, "ownership": "generated" },
-    { "source": "shared/.blueprint/version.txt", "target": ".blueprint/version.txt", "render": true, "ownership": "generated" },
-    { "source": "shared/docs/ai/instructions.md", "target": "docs/ai/instructions.md", "render": true, "ownership": "customizable" },
-    { "source": "shared/docs/ai/context.md", "target": "docs/ai/context.md", "render": true, "ownership": "customizable" },
-    { "source": "shared/docs/ai/conventions.md", "target": "docs/ai/conventions.md", "render": true, "ownership": "customizable" },
-    { "source": "shared/docs/ai/workflows.md", "target": "docs/ai/workflows.md", "render": true, "ownership": "customizable" },
-    { "source": "shared/docs/ai/testing.md", "target": "docs/ai/testing.md", "render": true, "ownership": "customizable" },
-    { "source": "shared/docs/ai/security.md", "target": "docs/ai/security.md", "render": true, "ownership": "customizable" },
-    { "source": "shared/docs/ai/architecture.md", "target": "docs/ai/architecture.md", "render": true, "ownership": "customizable" },
-    { "source": "shared/docs/ai/changelog.md", "target": "docs/ai/changelog.md", "render": true, "ownership": "customizable" }
+    { "source": "shared-files-for-every-repo/README.md", "target": "README.md", "render": true, "ownership": "customizable" },
+    { "source": "shared-files-for-every-repo/CHANGELOG.md", "target": "CHANGELOG.md", "render": true, "ownership": "customizable" },
+    { "source": "shared-files-for-every-repo/.blueprint/README.md", "target": ".blueprint/README.md", "render": true, "ownership": "generated" },
+    { "source": "shared-files-for-every-repo/.blueprint/version.txt", "target": ".blueprint/version.txt", "render": true, "ownership": "generated" },
+    { "source": "shared-files-for-every-repo/docs/ai/instructions.md", "target": "docs/ai/instructions.md", "render": true, "ownership": "customizable" },
+    { "source": "shared-files-for-every-repo/docs/ai/context.md", "target": "docs/ai/context.md", "render": true, "ownership": "customizable" },
+    { "source": "shared-files-for-every-repo/docs/ai/conventions.md", "target": "docs/ai/conventions.md", "render": true, "ownership": "customizable" },
+    { "source": "shared-files-for-every-repo/docs/ai/workflows.md", "target": "docs/ai/workflows.md", "render": true, "ownership": "customizable" },
+    { "source": "shared-files-for-every-repo/docs/ai/testing.md", "target": "docs/ai/testing.md", "render": true, "ownership": "customizable" },
+    { "source": "shared-files-for-every-repo/docs/ai/security.md", "target": "docs/ai/security.md", "render": true, "ownership": "customizable" },
+    { "source": "shared-files-for-every-repo/docs/ai/architecture.md", "target": "docs/ai/architecture.md", "render": true, "ownership": "customizable" },
+    { "source": "shared-files-for-every-repo/docs/ai/changelog.md", "target": "docs/ai/changelog.md", "render": true, "ownership": "customizable" }
   ],
   "blueprintFolders": [
     ".blueprint",
     "scripts",
-    "templates",
-    "templates/shared",
-    "templates/tools"
+    "blueprint-files-for-new-repos",
+    "blueprint-files-for-new-repos/shared-files-for-every-repo",
+    "blueprint-files-for-new-repos/ai-tool-adapters"
   ],
   "blueprintFiles": [
     ".blueprint/manifest.json",

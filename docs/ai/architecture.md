@@ -2,8 +2,8 @@
 
 This repo has four clear areas.
 
-- `templates/shared/`: files every future repo inherits.
-- `templates/tools/`: one adapter folder per AI tool.
+- `blueprint-files-for-new-repos/shared-files-for-every-repo/`: files every future repo inherits.
+- `blueprint-files-for-new-repos/ai-tool-adapters/`: one adapter folder per AI tool.
 - `.blueprint/`: metadata that tells scripts what to apply.
 - `scripts/`: PowerShell automation for apply, validate, diff, and update.
 

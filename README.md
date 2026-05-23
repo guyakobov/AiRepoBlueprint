@@ -1,18 +1,18 @@
 # AiRepoBlueprint
 
-Reusable, template-driven AI configuration blueprint for new repositories.
+Reusable AI configuration blueprint for new repositories.
 
 This repo is the source blueprint. It applies a consistent AI instruction structure to target repos for Codex, Claude Code, Antigravity, Gemini, and future AI tools while keeping shared guidance in `docs/ai/`.
 
 ## Layers
 
-- `templates/shared/` contains files every target repo receives.
-- `templates/tools/` contains one adapter folder per AI tool.
+- `blueprint-files-for-new-repos/shared-files-for-every-repo/` contains files every target repo receives.
+- `blueprint-files-for-new-repos/ai-tool-adapters/` contains one adapter folder per AI tool.
 - `.blueprint/` contains manifest, tool registry, schema, ownership rules, and version metadata.
 - `scripts/` contains PowerShell apply, validate, diff, and update workflows.
 - `docs/ai/` contains short maintainer guidance for this blueprint repo only.
 
-The reusable "my way of work" instructions live in `templates/shared/docs/ai/`. Do not duplicate that content in root `docs/ai/`.
+The reusable "my way of work" instructions live in `blueprint-files-for-new-repos/shared-files-for-every-repo/docs/ai/`. Do not duplicate that content in root `docs/ai/`.
 
 ## Apply To A New Repo
 
@@ -45,7 +45,7 @@ Current enabled adapters:
 - Claude Code: `CLAUDE.md` and `.claude/`
 - Antigravity: `.agents/`
 
-To add a future AI tool, add its templates under `templates/tools/<tool-id>/` and register its folders/files in `.blueprint/tools.json`.
+To add a future AI tool, add its adapter files under `blueprint-files-for-new-repos/ai-tool-adapters/<tool-id>/` and register its folders/files in `.blueprint/tools.json`.
 
 ## Validate, Diff, Update
 

@@ -1,43 +1,17 @@
-# Workflows
+# Blueprint Workflows
 
-Use this file as the canonical reference for project-level AI workflows.
+Reusable workflows inherited by future repos live in `templates/shared/docs/ai/workflows.md`.
 
-## Implement Feature
+## Change Inherited Instructions
 
-1. Read relevant docs, code, and tests.
-2. Identify existing patterns and extension points.
-3. Implement the smallest complete version of the feature.
-4. Add or update focused tests.
-5. Update `CHANGELOG.md` for meaningful changes.
-6. Run validation checks and summarize the outcome.
+1. Edit the relevant file under `templates/shared/docs/ai/`.
+2. Update tool adapters only if a tool needs different routing.
+3. Run blueprint validation.
+4. Apply to a temporary repo when changing template paths, scripts, or metadata.
 
-## Fix Bug
+## Add A New AI Tool
 
-1. Reproduce or reason about the failure.
-2. Identify the root cause.
-3. Apply a targeted fix.
-4. Add regression coverage where practical.
-5. Update `CHANGELOG.md` when the fix changes behavior.
-6. Verify the fix with relevant checks.
-
-## Refactor
-
-1. Preserve behavior.
-2. Keep changes mechanically reviewable.
-3. Avoid mixing refactors with unrelated feature work.
-4. Run tests that cover the touched area.
-
-## Blueprint Script Changes
-
-When changing blueprint scripts, verify at least:
-
-- `validate-blueprint.ps1 -TargetPath .`
-- Apply to an empty temporary repo.
-- Re-apply without `-Force`.
-- Re-apply with `-Force`.
-- Validate a partial temporary repo.
-- Confirm no `.github/workflows` directory was created.
-
-## Review Pull Request
-
-Prioritize correctness, security, regressions, maintainability, and missing tests. Report concrete findings with file and line references when possible.
+1. Add templates under `templates/tools/<tool-id>/`.
+2. Register the tool in `.blueprint/tools.json`.
+3. Keep the adapter thin and point it to target-repo `docs/ai/`.
+4. Validate and apply to a temporary repo.

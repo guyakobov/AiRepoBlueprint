@@ -1,26 +1,10 @@
-# Architecture
+# Blueprint Architecture
 
-This repo has three blueprint layers.
+This repo has four clear areas.
 
-## Template Layer
+- `templates/shared/`: files every future repo inherits.
+- `templates/tools/`: one adapter folder per AI tool.
+- `.blueprint/`: metadata that tells scripts what to apply.
+- `scripts/`: PowerShell automation for apply, validate, diff, and update.
 
-`templates/shared/` contains target-repo files every project receives. `templates/tools/` contains one adapter folder per AI tool. Template files may use double-brace placeholders for project name, primary language, commands, and other apply-time variables.
-
-## Metadata Layer
-
-`.blueprint/` contains:
-
-- `manifest.json` for target folders, target files, source templates, ownership, and defaults.
-- `tools.json` for enabled tool adapters and their file mappings.
-- `ownership.json` for managed, customizable, and generated file policy.
-- `schema.json` for the manifest shape.
-- `version.txt` for the current blueprint version.
-
-## Script Layer
-
-`scripts/` contains PowerShell-first workflows:
-
-- Apply missing blueprint files to a target repo.
-- Validate target structure and unresolved placeholders.
-- Diff rendered templates against target files.
-- Update target repos safely without overwriting unless forced.
+Root `docs/ai/` is not part of the inherited output. It documents how to maintain this blueprint repo.

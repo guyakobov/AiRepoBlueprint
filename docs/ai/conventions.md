@@ -1,21 +1,11 @@
-# Conventions
+# Blueprint Conventions
 
-Use this file to document project-wide implementation conventions after the blueprint is applied.
+Do not copy inherited work-style rules into this folder. Put reusable project guidance in `templates/shared/docs/ai/`.
 
-## Code Style
+## Maintenance Rules
 
-- Follow the style already present in the target repository.
-- Prefer simple, explicit code over clever abstractions.
-- Keep naming consistent with nearby code.
-- Add comments only when they explain non-obvious intent.
-
-## Documentation
-
-- Keep canonical AI guidance in `docs/ai/`.
-- Keep tool-specific files short and focused on routing to canonical guidance.
-- Update documentation when behavior, workflows, or architecture decisions change.
-
-## Change Scope
-
-- Make the smallest coherent change that solves the task.
-- Avoid opportunistic refactors unless they directly reduce risk or unlock the requested work.
+- Keep root `docs/ai/` focused on blueprint maintenance only.
+- Keep future-repo shared files under `templates/shared/`.
+- Keep future-repo tool-specific files under `templates/tools/<tool-id>/`.
+- Keep tool adapters thin; they should point to inherited `docs/ai/` in the target repo.
+- Prefer metadata changes over script changes when adding files or tools.

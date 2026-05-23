@@ -1,24 +1,14 @@
-# AI Instructions
+# Blueprint Maintainer Instructions
 
-This directory is the canonical source of truth for AI-assisted work in this blueprint repository. Tool-specific entrypoints should reference these files instead of copying their guidance.
+This folder is only for working on the `AiRepoBlueprint` repository itself.
 
-## Operating Principles
+Reusable instructions for future repos live in `templates/shared/docs/ai/`. Do not duplicate that content here.
 
-- Preserve this repo as a reusable blueprint for future repositories.
-- Prefer manifest-driven behavior over hard-coded file lists.
-- Keep `templates/shared/` as the source for inherited shared files.
-- Keep `templates/tools/` as the source for inherited tool adapters.
-- Keep `.blueprint/` as metadata, tool registry, schema, version, and ownership policy.
-- Keep `scripts/` as PowerShell-first blueprint automation.
-- Verify meaningful changes with the blueprint scripts.
-- Call out uncertainty, risk, or assumptions clearly.
+## Maintainer Rules
 
-## File Ownership
-
-- Shared governance for this repo belongs in `docs/ai/`.
-- Target-repo shared templates belong in `templates/shared/`.
-- Target-repo tool templates belong in `templates/tools/`.
-- Claude-only target configuration templates belong in `templates/.claude/`.
-- Antigravity target templates belong in `templates/.agents/`.
-- Blueprint metadata belongs in `.blueprint/`.
-- Automation and validation logic belongs in `scripts/`.
+- Edit `templates/shared/docs/ai/` when changing the inherited way of work.
+- Edit `templates/tools/<tool-id>/` when changing a specific AI tool adapter.
+- Edit `.blueprint/tools.json` when adding or disabling an AI tool.
+- Edit `.blueprint/manifest.json` when changing shared inherited files or variables.
+- Keep scripts in `scripts/` PowerShell-first.
+- Validate blueprint changes before committing.

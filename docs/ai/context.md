@@ -1,20 +1,13 @@
-# Project Context
+# Blueprint Repo Context
 
-This repository is a reusable AI repo blueprint. Its purpose is to initialize future repositories with consistent AI instructions, tool adapters, reusable workflows, and validation metadata.
+`AiRepoBlueprint` is the source repo used to initialize future projects with your AI working style.
 
-## Purpose
+## Source Of Truth
 
-Use this repository as a baseline for:
+- Future-repo instructions: `templates/shared/docs/ai/`
+- Future-repo tool adapters: `templates/tools/`
+- Enabled tools: `.blueprint/tools.json`
+- Shared inherited file map: `.blueprint/manifest.json`
+- Apply/validate/diff/update automation: `scripts/`
 
-- Codex `AGENTS.md` guidance.
-- Claude Code `CLAUDE.md`, settings, subagents, rules, and skills.
-- Antigravity `.agents/` rules, workflows, and skills.
-- Gemini `GEMINI.md` guidance.
-- Shared project AI governance in `docs/ai/`.
-- Safe application and validation through PowerShell scripts.
-
-## Dynamic Application
-
-Target repositories are generated from `templates/` using variables such as project name, language, framework, package manager, and commands.
-
-The apply script writes `.blueprint/applied.json` into target repos so later validation and updates can understand which blueprint version, enabled tools, and variables were used.
+The root `docs/ai/` folder is intentionally small. It exists to guide maintenance of this blueprint repo, not to duplicate inherited instructions.

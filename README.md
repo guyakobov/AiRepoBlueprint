@@ -10,7 +10,9 @@ This repo is the source blueprint. It applies a consistent AI instruction struct
 - `templates/tools/` contains one adapter folder per AI tool.
 - `.blueprint/` contains manifest, tool registry, schema, ownership rules, and version metadata.
 - `scripts/` contains PowerShell apply, validate, diff, and update workflows.
-- `docs/ai/` contains this blueprint repo's own canonical AI governance.
+- `docs/ai/` contains short maintainer guidance for this blueprint repo only.
+
+The reusable "my way of work" instructions live in `templates/shared/docs/ai/`. Do not duplicate that content in root `docs/ai/`.
 
 ## Apply To A New Repo
 

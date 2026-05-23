@@ -1,22 +1,10 @@
-# Security
+# Blueprint Security
 
-Use this file as the canonical security guidance for AI-assisted work.
+Reusable security guidance inherited by future repos lives in `templates/shared/docs/ai/security.md`.
 
-## Baseline Rules
+## Maintainer Focus
 
-- Never commit secrets, credentials, tokens, or private keys.
-- Treat user input, external data, and generated content as untrusted.
-- Prefer established security libraries over custom implementations.
-- Avoid logging sensitive data.
-- Preserve existing access control checks unless explicitly changing authorization behavior.
-
-## Review Focus
-
-When reviewing or changing code, check for:
-
-- Injection risks.
-- Unsafe deserialization.
-- Missing authorization checks.
-- Overly broad permissions.
-- Secret exposure in code, logs, configs, or tests.
-- Insecure defaults.
+- Do not place secrets in blueprint templates.
+- Do not make scripts overwrite target files unless `-Force` is explicitly passed.
+- Keep generated `.blueprint/applied.json` free of secrets.
+- Treat future tool adapters as routing/configuration, not a place for private credentials.

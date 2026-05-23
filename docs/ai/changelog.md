@@ -1,40 +1,7 @@
-# Changelog Governance
+# Blueprint Changelog
 
-Use `CHANGELOG.md` in the repository root to record every meaningful code change.
+Reusable changelog governance inherited by future repos lives in `templates/shared/docs/ai/changelog.md`.
 
-## When To Update
-
-Update `CHANGELOG.md` whenever a change affects repository behavior, scripts, configuration, documentation governance, reusable blueprint structure, or AI operating instructions.
-
-Documentation-only edits still need a changelog entry when they change how future work should be done.
-
-## Entry Format
-
-Each entry must include:
-
-- Version.
-- Date.
-- Short description.
-- Commit hash.
-- Status.
-
-Allowed status values:
-
-- `pending_review`
-- `success`
-- `failed`
-- `needs_follow_up`
-
-Use `pending` for the commit hash until the change has been committed. After a commit exists, replace `pending` with the short commit hash.
-
-## Versioning
-
-Use semantic versions for blueprint-level changes:
-
-- Patch version for small documentation or script fixes.
-- Minor version for new governance files, structure, scripts, or reusable capabilities.
-- Major version for breaking changes to blueprint layout or expected behavior.
-
-## Review Reminder
+For this blueprint repo, update root `CHANGELOG.md` when changes affect templates, tools, metadata, scripts, or inherited behavior.
 
 After every successful push to `main`, remind the user to review whether the pushed change meets expectations.

@@ -1,5 +1,3 @@
 # Antigravity Workflow: Implement Feature
 
-Use the canonical feature workflow in `docs/ai/workflows.md`.
-
-Default validation command: `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\validate-blueprint.ps1 -TargetPath .`.
+Implement the feature, run local QA from `docs/ai/QA.md`, then follow `docs/ai/deploy-to-production.md`.

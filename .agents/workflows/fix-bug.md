@@ -1,5 +1,3 @@
 # Antigravity Workflow: Fix Bug
 
-Use the canonical bug-fix workflow in `docs/ai/workflows.md`.
-
-Default validation command: `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\validate-blueprint.ps1 -TargetPath .`.
+Fix the bug, run local QA from `docs/ai/QA.md`, then follow `docs/ai/deploy-to-production.md`.

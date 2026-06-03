@@ -1,3 +1,3 @@
 # Antigravity Rule: Code Style
 
-Use the canonical convention guidance in `docs/ai/conventions.md`.
+Follow the existing style of the repo.

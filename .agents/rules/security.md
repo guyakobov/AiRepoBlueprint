@@ -1,3 +1,3 @@
 # Antigravity Rule: Security
 
-Use the canonical security guidance in `docs/ai/security.md`.
+Do not add secrets, credentials, or private keys to the repo.

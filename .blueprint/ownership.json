@@ -1,8 +1,0 @@
-{
-  "policies": {
-    "managed": "Blueprint-owned adapter or configuration file. Safe sync will not overwrite it unless -Force is passed, and validation reports drift.",
-    "customizable": "Project-owned content initialized by the blueprint. Safe sync preserves local edits and validation reports unresolved placeholders.",
-    "generated": "Metadata generated or maintained by the blueprint scripts."
-  },
-  "defaultPolicy": "managed"
-}

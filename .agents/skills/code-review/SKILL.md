@@ -1,16 +1,15 @@
 ---
 name: antigravity-code-review
-description: Review code changes using the repository's canonical AI guidance.
+description: Review code changes using the repository's AI guidance.
 ---
 
 # Antigravity Skill: Code Review
 
-Use this Antigravity-specific skill for review workflows in AiRepoBlueprint.
+Use these files:
 
-Canonical guidance:
-
-- `docs/ai/workflows.md`
-- `docs/ai/testing.md`
-- `docs/ai/security.md`
-- `docs/ai/architecture.md`
 - `docs/ai/changelog.md`
+- `docs/ai/deploy-to-production.md`
+- `docs/ai/QA.md`
+- `docs/ai/HOST.md`
+
+Check that the requested change is complete before publishing to `main`.

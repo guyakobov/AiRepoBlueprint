@@ -1,12 +1,9 @@
 # AI Instructions
 
-Use the canonical project AI guidance in `docs/ai/`:
+Use the project AI guidance in `docs/ai/`:
 
-- `docs/ai/instructions.md`
-- `docs/ai/context.md`
-- `docs/ai/conventions.md`
-- `docs/ai/workflows.md`
-- `docs/ai/testing.md`
-- `docs/ai/security.md`
-- `docs/ai/architecture.md`
 - `docs/ai/changelog.md`
+- `docs/ai/database.md`
+- `docs/ai/deploy-to-production.md`
+- `docs/ai/QA.md`
+- `docs/ai/HOST.md`

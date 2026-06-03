@@ -1,5 +1,3 @@
 # Antigravity Workflow: Refactor
 
-Use the canonical refactor workflow in `docs/ai/workflows.md`.
-
-Preserve behavior and use `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\validate-blueprint.ps1 -TargetPath .` for verification unless a narrower command is available.
+Refactor without changing behavior, run local QA from `docs/ai/QA.md`, then follow `docs/ai/deploy-to-production.md`.

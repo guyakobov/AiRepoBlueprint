@@ -1,3 +1,3 @@
 # Claude Testing Rule
 
-Follow the canonical testing guidance in `docs/ai/testing.md`.
+Use `docs/ai/QA.md` before publishing changes to `main`.

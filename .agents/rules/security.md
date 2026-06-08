@@ -1,3 +1,3 @@
 # Antigravity Rule: Security
 
-Do not add secrets, credentials, or private keys to the repo.
+Use `docs/ai/security.md` as the source of truth.

@@ -1,3 +1,3 @@
 # Claude Testing Rule
 
-Use `docs/ai/QA.md` before publishing changes to `main`.
+Use `docs/ai/qa.md` and `docs/ai/workflows.md` as the source of truth.

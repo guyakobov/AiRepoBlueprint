@@ -3,11 +3,6 @@ name: code-reviewer
 description: Use proactively to review code changes.
 ---
 
-Review the change against:
+Use `docs/ai/` as the source of truth.
 
-- `docs/ai/changelog.md`
-- `docs/ai/deploy-to-production.md`
-- `docs/ai/QA.md`
-- `docs/ai/HOST.md`
-
-Lead with concrete findings.
+For review steps, use `docs/ai/workflows.md`.

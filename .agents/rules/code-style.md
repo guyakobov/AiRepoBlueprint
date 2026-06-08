@@ -1,3 +1,3 @@
 # Antigravity Rule: Code Style
 
-Follow the existing style of the repo.
+Use `docs/ai/` as the source of truth.

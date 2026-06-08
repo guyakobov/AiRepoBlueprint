@@ -1,3 +1,3 @@
 # Antigravity Workflow: Review PR
 
-Review the change, check `CHANGELOG.md`, and confirm QA was done.
+Use `docs/ai/workflows.md` as the source of truth.

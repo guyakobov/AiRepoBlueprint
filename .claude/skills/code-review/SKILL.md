@@ -5,11 +5,6 @@ description: Review code changes using the repository's AI guidance.
 
 # Claude Skill: Code Review
 
-Use these files:
+Use `docs/ai/` as the source of truth.
 
-- `docs/ai/changelog.md`
-- `docs/ai/deploy-to-production.md`
-- `docs/ai/QA.md`
-- `docs/ai/HOST.md`
-
-Check that the requested change is complete before publishing to `main`.
+For review steps, use `docs/ai/workflows.md`.

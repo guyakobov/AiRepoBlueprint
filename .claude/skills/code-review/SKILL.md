@@ -6,5 +6,3 @@ description: Review code changes using the repository's AI guidance.
 # Claude Skill: Code Review
 
 Use `docs/ai/` as the source of truth.
-
-For review steps, use `docs/ai/workflows.md`.

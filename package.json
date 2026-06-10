@@ -1,0 +1,27 @@
+{
+  "name": "ai-repo-blueprint",
+  "version": "1.0.0",
+  "description": "AI instruction blueprint installer for new repositories.",
+  "bin": {
+    "ai-repo-blueprint": "bin/ai-repo-blueprint.js"
+  },
+  "files": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "GEMINI.md",
+    "CHANGELOG.md",
+    "docs/ai/",
+    "llm_config/",
+    "bin/",
+    "lib/"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [
+    "ai",
+    "agents",
+    "blueprint"
+  ],
+  "license": "MIT"
+}

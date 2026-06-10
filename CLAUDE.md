@@ -11,4 +11,4 @@ Use the project AI guidance in `docs/ai/`:
 - `docs/ai/responsive-ui.md`
 - `docs/ai/tools.md`
 
-Claude-specific files live in `.claude/`.
+Claude-specific files live in `llm_config/claude/.claude/`.

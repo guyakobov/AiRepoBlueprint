@@ -13,4 +13,4 @@ Use the project AI guidance in `docs/ai/`:
 - `docs/ai/privacy-policy.md`
 - `docs/ai/terms-of-service.md`
 
-Claude-specific files live in `llm_config/claude/.claude/`.
+Claude-specific files live in `.claude/`.

@@ -38,17 +38,22 @@ Existing files are skipped. To replace them, use:
 npx ai-repo-blueprint --force
 ```
 
-The command copies these files and folders:
+Template files are stored in this blueprint under:
+
+- `llm_config/codex/AGENTS.md`
+- `llm_config/claude/CLAUDE.md`
+- `llm_config/gemini/GEMINI.md`
+
+The command places provider files in the target repository root:
 
 - `AGENTS.md`
 - `CLAUDE.md`
 - `GEMINI.md`
 - `CHANGELOG.md`
 - `docs/ai/`
-- `llm_config/`
 
-LLM-specific dot folders live under:
+Provider dot folders are also copied to the target root:
 
-- `llm_config/codex/.agents/`
-- `llm_config/claude/.claude/`
-- `llm_config/gemini/.gemini/`
+- `.agents/`
+- `.claude/`
+- `.gemini/`

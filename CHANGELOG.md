@@ -2,6 +2,12 @@
 
 All meaningful code changes to this blueprint should be recorded here.
 
+## 1.7.1 - 2026-06-20
+
+- Description: Store provider instruction templates under `llm_config` and deploy them to target repository roots.
+- Commit: pending
+- Status: success
+
 ## 1.7.0 - 2026-06-20
 
 - Description: Add an interactive initializer that creates project-specific AI guidance.

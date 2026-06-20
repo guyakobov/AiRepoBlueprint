@@ -1,6 +1,6 @@
 {
   "name": "ai-repo-blueprint",
-  "version": "1.0.0",
+  "version": "1.7.0",
   "description": "AI instruction blueprint installer for new repositories.",
   "bin": {
     "ai-repo-blueprint": "bin/ai-repo-blueprint.js"
@@ -15,9 +15,6 @@
     "bin/",
     "lib/"
   ],
-  "scripts": {
-    "test": "node --test"
-  },
   "keywords": [
     "ai",
     "agents",

@@ -2,6 +2,12 @@
 
 All meaningful code changes to this blueprint should be recorded here.
 
+## 1.7.0 - 2026-06-20
+
+- Description: Add an interactive initializer that creates project-specific AI guidance.
+- Commit: pending
+- Status: success
+
 ## 1.6.0 - 2026-06-03
 
 - Description: Add host documentation for where future applications run.

@@ -15,9 +15,9 @@ The interactive setup asks about:
 - Tools, MCPs, and plugins.
 - Responsive UI requirements.
 - Privacy policy and terms of service.
-- Codex, Claude, and Gemini configuration.
+- Which LLM tools are used: Codex, Claude, Gemini, or a combination.
 
-It creates only the AI guidance files needed for the answers.
+It creates only the AI guidance and provider files needed for the answers.
 
 Or pass a target repo:
 
@@ -37,13 +37,7 @@ Existing files are skipped. To replace them, use:
 npx ai-repo-blueprint --force
 ```
 
-Template files are stored in this blueprint under:
-
-- `llm_config/codex/AGENTS.md`
-- `llm_config/claude/CLAUDE.md`
-- `llm_config/gemini/GEMINI.md`
-
-The command places provider files in the target repository root:
+The command generates selected provider files in the target repository root:
 
 - `AGENTS.md`
 - `CLAUDE.md`
@@ -51,7 +45,7 @@ The command places provider files in the target repository root:
 - `CHANGELOG.md`
 - `docs/ai/`
 
-Provider dot folders are also copied to the target root:
+Empty provider folders are created without rules or instructions:
 
 - `.agents/`
 - `.claude/`

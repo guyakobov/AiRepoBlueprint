@@ -42,6 +42,30 @@ async function askYesNo(rl, question, defaultValue = true) {
   return ["y", "yes"].includes(answer);
 }
 
+async function askProviders(rl) {
+  const validProviders = Object.keys(providerConfig);
+
+  while (true) {
+    const answer = await askText(
+      rl,
+      "Which LLM tool(s) do you use? Choose codex, claude, gemini, or comma separated"
+    );
+    const requestedProviders = splitList(answer).map((provider) => provider.toLowerCase());
+    const providers = [...new Set(
+      requestedProviders.filter((provider) => providerConfig[provider])
+    )];
+    const invalidProviders = requestedProviders.filter(
+      (provider) => !validProviders.includes(provider)
+    );
+
+    if (providers.length && !invalidProviders.length) {
+      return providers;
+    }
+
+    console.log("Enter at least one valid tool: codex, claude, or gemini.");
+  }
+}
+
 async function collectProjectConfig(targetDir) {
   const rl = readline.createInterface({ input: stdin, output: stdout });
 
@@ -84,14 +108,7 @@ async function collectProjectConfig(targetDir) {
       isUserFacing
     );
 
-    const providerAnswer = await askText(
-      rl,
-      "AI providers to configure, comma separated",
-      "codex, claude, gemini"
-    );
-    const providers = splitList(providerAnswer)
-      .map((provider) => provider.toLowerCase())
-      .filter((provider) => providerConfig[provider]);
+    const providers = await askProviders(rl);
 
     const selectedDocs = [];
     if (needsDatabase) selectedDocs.push("database.md");

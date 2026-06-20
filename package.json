@@ -1,6 +1,6 @@
 {
   "name": "ai-repo-blueprint",
-  "version": "1.7.2",
+  "version": "1.7.4",
   "description": "AI instruction blueprint installer for new repositories.",
   "bin": {
     "ai-repo-blueprint": "bin/ai-repo-blueprint.js"

@@ -2,6 +2,18 @@
 
 All meaningful code changes to this blueprint should be recorded here.
 
+## 1.7.4 - 2026-06-20
+
+- Description: Keep empty provider folders and copy files only for the selected LLM tools.
+- Commit: pending
+- Status: success
+
+## 1.7.3 - 2026-06-20
+
+- Description: Remove provider-specific rules and generate only root instruction files from `docs/ai`.
+- Commit: pending
+- Status: success
+
 ## 1.7.2 - 2026-06-20
 
 - Description: Simplify interactive setup by removing requirements and hosting questions.

@@ -12,7 +12,6 @@ The interactive setup asks about:
 
 - Project name, type, and purpose.
 - Database requirements.
-- Hosting and deployment location.
 - Tools, MCPs, and plugins.
 - Responsive UI requirements.
 - Privacy policy and terms of service.

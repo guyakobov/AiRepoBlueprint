@@ -53,7 +53,6 @@ async function collectProjectConfig(targetDir) {
       "Project type (website, app, API, library, data pipeline, other)",
       "website"
     );
-    const requirements = await askText(rl, "Main requirements (optional)");
 
     const needsDatabase = await askYesNo(rl, "Does this project need a database?", false);
     const database = needsDatabase
@@ -61,17 +60,7 @@ async function collectProjectConfig(targetDir) {
           provider: await askText(rl, "Database provider (Postgres, MySQL, etc.)"),
           name: await askText(rl, "Database name"),
           purpose: await askText(rl, "What will the database store?", "Application data"),
-        }
-      : {};
-
-    const needsHost = await askYesNo(rl, "Will this project be hosted or deployed?", true);
-    const host = needsHost
-      ? {
-          platform: await askText(rl, "Hosting platform (Vercel, AWS, GCP, etc.)"),
-          environment: await askText(rl, "Environment", "production"),
-          url: await askText(rl, "Public URL (optional)"),
-          region: await askText(rl, "Hosting region (optional)"),
-        }
+      }
       : {};
 
     const tools = splitList(await askText(rl, "Tools to use, comma separated (optional)"));
@@ -106,7 +95,6 @@ async function collectProjectConfig(targetDir) {
 
     const selectedDocs = [];
     if (needsDatabase) selectedDocs.push("database.md");
-    if (needsHost) selectedDocs.push("host.md", "deploy-to-production.md");
     if (tools.length || mcps.length || plugins.length) selectedDocs.push("tools.md");
     if (responsive) selectedDocs.push("responsive-ui.md");
     if (privacy) selectedDocs.push("privacy-policy.md");
@@ -117,9 +105,7 @@ async function collectProjectConfig(targetDir) {
         name,
         description: description || "Not provided",
         type,
-        requirements: requirements ? `- ${requirements}` : "",
         database,
-        host,
         tools,
         mcps,
         plugins,

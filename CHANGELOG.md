@@ -2,6 +2,12 @@
 
 All meaningful code changes to this blueprint should be recorded here.
 
+## 1.7.2 - 2026-06-20
+
+- Description: Simplify interactive setup by removing requirements and hosting questions.
+- Commit: pending
+- Status: success
+
 ## 1.7.1 - 2026-06-20
 
 - Description: Store provider instruction templates under `llm_config` and deploy them to target repository roots.

@@ -14,6 +14,7 @@ The interactive setup asks about:
 - Database requirements.
 - Tools, MCPs, and plugins.
 - Responsive UI requirements.
+- Design style for websites, apps, and UI clients.
 - Privacy policy and terms of service.
 - Which LLM tools are used: Codex, Claude, Gemini, or a combination.
 

@@ -2,6 +2,12 @@
 
 All meaningful code changes to this blueprint should be recorded here.
 
+## 1.7.5 - 2026-06-26
+
+- Description: Add UI design style guidance for website, app, and client projects.
+- Commit: pending
+- Status: success
+
 ## 1.7.4 - 2026-06-20
 
 - Description: Keep empty provider folders and copy files only for the selected LLM tools.

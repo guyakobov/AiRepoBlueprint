@@ -113,7 +113,7 @@ async function collectProjectConfig(targetDir) {
     const selectedDocs = [];
     if (needsDatabase) selectedDocs.push("database.md");
     if (tools.length || mcps.length || plugins.length) selectedDocs.push("tools.md");
-    if (responsive) selectedDocs.push("responsive-ui.md");
+    if (responsive) selectedDocs.push("responsive-ui.md", "design_style.md");
     if (privacy) selectedDocs.push("privacy-policy.md");
     if (terms) selectedDocs.push("terms-of-service.md");
 

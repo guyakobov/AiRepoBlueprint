@@ -8,6 +8,12 @@ Run it inside another repo:
 npx ai-repo-blueprint
 ```
 
+If the package is not published to npm, run it directly from a neighboring repository:
+
+```powershell
+node ..\AiRepoBlueprint\bin\ai-repo-blueprint.js
+```
+
 The interactive setup asks about:
 
 - Project name, type, and purpose.

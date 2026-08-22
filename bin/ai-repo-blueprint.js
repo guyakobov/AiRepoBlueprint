@@ -3,6 +3,7 @@ const path = require("node:path");
 const readline = require("node:readline/promises");
 const { stdin, stdout } = require("node:process");
 const { copyBlueprint, providerConfig } = require("../lib/copy-blueprint");
+const { agentCatalog, getRecommendedAgents } = require("../lib/agents");
 
 function parseArgs(argv) {
   const args = [...argv];
@@ -26,6 +27,33 @@ function splitList(value) {
     .split(",")
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+function parseAgentSelection(value, recommendedAgents) {
+  const requested = splitList(value).map((agent) => agent.toLowerCase());
+
+  if (requested.length === 1 && requested[0] === "all") {
+    return Object.keys(agentCatalog);
+  }
+
+  if (requested.length === 1 && requested[0] === "none") {
+    return [];
+  }
+
+  if (requested.length === 1 && requested[0] === "recommended") {
+    return [...recommendedAgents];
+  }
+
+  const specialValues = requested.filter((agent) =>
+    ["all", "none", "recommended"].includes(agent)
+  );
+  const invalidAgents = requested.filter((agent) => !agentCatalog[agent]);
+
+  if (!requested.length || specialValues.length || invalidAgents.length) {
+    throw new Error("Invalid agent selection");
+  }
+
+  return [...new Set(requested)];
 }
 
 async function askText(rl, question, defaultValue = "") {
@@ -63,6 +91,28 @@ async function askProviders(rl) {
     }
 
     console.log("Enter at least one valid tool: codex, claude, or gemini.");
+  }
+}
+
+async function askAgents(rl, project) {
+  const agentNames = Object.keys(agentCatalog).join(", ");
+  const recommendedAgents = getRecommendedAgents(project);
+
+  console.log(`Available agents: ${agentNames}`);
+  console.log(`Recommended: ${recommendedAgents.join(", ")}`);
+
+  while (true) {
+    const answer = await askText(
+      rl,
+      "Which agents should be installed? Use recommended, all, none, or comma separated names",
+      "recommended"
+    );
+
+    try {
+      return parseAgentSelection(answer, recommendedAgents);
+    } catch {
+      console.log("Enter recommended, all, none, or valid comma separated agent names.");
+    }
   }
 }
 
@@ -117,18 +167,22 @@ async function collectProjectConfig(targetDir) {
     if (privacy) selectedDocs.push("privacy-policy.md");
     if (terms) selectedDocs.push("terms-of-service.md");
 
+    const project = {
+      name,
+      description: description || "Not provided",
+      type,
+      database,
+      tools,
+      mcps,
+      plugins,
+    };
+    const agents = await askAgents(rl, project);
+
     return {
-      project: {
-        name,
-        description: description || "Not provided",
-        type,
-        database,
-        tools,
-        mcps,
-        plugins,
-      },
+      project,
       providers,
       selectedDocs,
+      agents,
     };
   } finally {
     rl.close();
@@ -151,7 +205,18 @@ async function main() {
   console.log(`Done. Copied ${result.copied.length}, skipped ${result.skipped.length}.`);
 }
 
-main().catch((error) => {
-  console.error(error.message);
-  process.exitCode = 1;
-});
+if (require.main === module) {
+  main().catch((error) => {
+    console.error(error.message);
+    process.exitCode = 1;
+  });
+}
+
+module.exports = {
+  askAgents,
+  collectProjectConfig,
+  main,
+  parseAgentSelection,
+  parseArgs,
+  splitList,
+};

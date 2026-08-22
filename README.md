@@ -23,6 +23,7 @@ The interactive setup asks about:
 - Design style for websites, apps, and UI clients.
 - Privacy policy and terms of service.
 - Which LLM tools are used: Codex, Claude, Gemini, or a combination.
+- Which specialized agents should be installed.
 
 It creates only the AI guidance and provider files needed for the answers.
 
@@ -52,8 +53,21 @@ The command generates selected provider files in the target repository root:
 - `CHANGELOG.md`
 - `docs/ai/`
 
-Empty provider folders are created without rules or instructions:
+Agent instructions have one shared source under `docs/ai/agents/`. Small native adapters point each AI tool to that source:
 
-- `.agents/`
-- `.claude/`
-- `.gemini/`
+- `.codex/agents/*.toml`
+- `.claude/agents/*.md`
+- `.gemini/agents/*.md`
+
+Available agents:
+
+- `planner`
+- `implementer`
+- `tester`
+- `reviewer`
+- `security-reviewer`
+- `sql-expert`
+- `frontend-expert`
+- `backend-expert`
+
+The agent question accepts `recommended`, `all`, `none`, or comma-separated names. Recommendations use the project type and database answers.

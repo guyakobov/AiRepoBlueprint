@@ -1,18 +1,38 @@
 # AiRepoBlueprint
 
-An npm-installable AI instruction blueprint for new repositories.
+An npm-installable, versioned AI instruction blueprint for other repositories.
 
-Run it inside another repo:
+## Use in another repository
+
+Open a terminal in the other repository and run:
 
 ```bash
-npx ai-repo-blueprint
+npx ai-repo-blueprint@latest init
 ```
 
-If the package is not published to npm, run it directly from a neighboring repository:
+Installs the blueprint and asks what to include.
 
-```powershell
-node ..\AiRepoBlueprint\bin\ai-repo-blueprint.js
+```bash
+npx ai-repo-blueprint@latest check
 ```
+
+Checks whether a newer blueprint is available. It does not change files.
+
+```bash
+npx ai-repo-blueprint@latest update
+```
+
+Updates blueprint files safely. Your locally changed files are kept.
+
+```bash
+npx ai-repo-blueprint@latest update --prune
+```
+
+Also removes unchanged files that are no longer in the blueprint.
+
+`@latest` uses the newest published version.
+
+## Setup details
 
 The interactive setup asks about:
 
@@ -28,22 +48,37 @@ The interactive setup asks about:
 
 It creates only the AI guidance and provider files needed for the answers.
 
-Or pass a target repo:
+You can also pass a target repository:
 
 ```bash
-npx ai-repo-blueprint ./target-repo
+npx ai-repo-blueprint@latest init ./target-repo
 ```
 
 To skip the questions and copy the complete blueprint:
 
 ```bash
-npx ai-repo-blueprint --all
+npx ai-repo-blueprint@latest init --all
 ```
 
-Existing files are skipped. To replace them, use:
+Initialization creates `.ai-repo-blueprint.json` to track the installed version and files.
+
+Existing files are managed only when they already match the blueprint. Different files are skipped. To replace them explicitly, use:
 
 ```bash
-npx ai-repo-blueprint --force
+npx ai-repo-blueprint@latest init --force
+```
+
+Use `--force` only when local changes should be replaced:
+
+```bash
+npx ai-repo-blueprint@latest update --force --prune
+```
+
+For a fixed version in an important repository:
+
+```bash
+npm install --save-dev ai-repo-blueprint@1.10.0
+npx ai-repo-blueprint update
 ```
 
 The command generates selected provider files in the target repository root:

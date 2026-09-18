@@ -2,23 +2,54 @@
 const path = require("node:path");
 const readline = require("node:readline/promises");
 const { stdin, stdout } = require("node:process");
-const { copyBlueprint, providerConfig } = require("../lib/copy-blueprint");
+const { providerConfig } = require("../lib/copy-blueprint");
 const { agentCatalog, getRecommendedAgents } = require("../lib/agents");
 const { getRecommendedSkills, skillCatalog } = require("../lib/skills");
+const {
+  checkBlueprint,
+  initializeBlueprint,
+  updateBlueprint,
+} = require("../lib/managed-blueprint");
+
+const commands = ["init", "check", "update"];
 
 function parseArgs(argv) {
   const args = [...argv];
-  const force = args.includes("--force");
-  const all = args.includes("--all");
-  const positionals = args.filter((arg) => !["--force", "--all"].includes(arg));
+  const command = commands.includes(args[0]) ? args.shift() : "init";
+  const options = {
+    all: false,
+    force: false,
+    prune: false,
+  };
+  const positionals = [];
+
+  for (const arg of args) {
+    if (arg === "--all") options.all = true;
+    else if (arg === "--force") options.force = true;
+    else if (arg === "--prune") options.prune = true;
+    else if (arg.startsWith("--")) throw new Error(`Unknown option: ${arg}`);
+    else positionals.push(arg);
+  }
 
   if (positionals.length > 1) {
-    throw new Error("Usage: ai-repo-blueprint [target-folder] [--force] [--all]");
+    throw new Error(
+      "Usage: ai-repo-blueprint [init|check|update] [target-folder] [options]"
+    );
+  }
+
+  if (command !== "init" && options.all) {
+    throw new Error("--all can only be used with init");
+  }
+  if (command !== "update" && options.prune) {
+    throw new Error("--prune can only be used with update");
+  }
+  if (command === "check" && options.force) {
+    throw new Error("--force cannot be used with check");
   }
 
   return {
-    all,
-    force,
+    command,
+    ...options,
     targetDir: positionals[0] ? path.resolve(positionals[0]) : process.cwd(),
   };
 }
@@ -241,20 +272,55 @@ async function collectProjectConfig(targetDir) {
   }
 }
 
+function printPaths(label, paths) {
+  for (const file of paths) console.log(`${label} ${file}`);
+}
+
 async function main() {
   const options = parseArgs(process.argv.slice(2));
-  const configuration = options.all ? {} : await collectProjectConfig(options.targetDir);
-  const result = copyBlueprint({ ...options, ...configuration });
 
-  for (const file of result.copied) {
-    console.log(`copied ${file}`);
+  if (options.command === "init") {
+    const configuration = options.all
+      ? { mode: "all" }
+      : { mode: "custom", ...(await collectProjectConfig(options.targetDir)) };
+    const result = initializeBlueprint({
+      targetDir: options.targetDir,
+      configuration,
+      force: options.force,
+    });
+
+    printPaths("created", result.created);
+    printPaths("adopted", result.adopted);
+    printPaths("skipped", result.skipped);
+    console.log(`created ${result.stateFile}`);
+    return;
   }
 
-  for (const file of result.skipped) {
-    console.log(`skipped ${file}`);
+  if (options.command === "check") {
+    const result = checkBlueprint({ targetDir: options.targetDir });
+    console.log(
+      `Blueprint ${result.installedVersion} -> ${result.availableVersion}`
+    );
+    printPaths("create", result.create);
+    printPaths("update", result.update);
+    printPaths("conflict", result.conflicts);
+    printPaths("obsolete", result.obsolete);
+    console.log(result.current ? "Blueprint is current." : "Blueprint update is needed.");
+    if (!result.current) process.exitCode = 1;
+    return;
   }
 
-  console.log(`Done. Copied ${result.copied.length}, skipped ${result.skipped.length}.`);
+  const result = updateBlueprint({
+    targetDir: options.targetDir,
+    force: options.force,
+    prune: options.prune,
+  });
+  printPaths("created", result.created);
+  printPaths("updated", result.updated);
+  printPaths("skipped", result.skipped);
+  printPaths("obsolete", result.obsolete);
+  printPaths("removed", result.removed);
+  console.log(`Blueprint ${result.previousVersion} -> ${result.blueprintVersion}`);
 }
 
 if (require.main === module) {

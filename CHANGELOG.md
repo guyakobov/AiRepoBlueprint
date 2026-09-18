@@ -2,6 +2,12 @@
 
 All meaningful code changes to this blueprint should be recorded here.
 
+## 1.10.0 - 2026-09-18
+
+- Description: Add managed `init`, `check`, and safe `update` commands with per-file hashes, conflict protection, and optional pruning.
+- Commit: pending
+- Status: success
+
 ## 1.9.0 - 2026-09-18
 
 - Description: Add shared project skill support, starting with the user-provided `repo-cleanup` skill and portable Codex, Claude, and Gemini adapters.

@@ -4,9 +4,18 @@ const os = require("node:os");
 const path = require("node:path");
 const test = require("node:test");
 
-const { parseAgentSelection } = require("../bin/ai-repo-blueprint");
+const {
+  parseAgentSelection,
+  parseSkillSelection,
+} = require("../bin/ai-repo-blueprint");
 const { copyBlueprint } = require("../lib/copy-blueprint");
 const { agentCatalog, coreAgentIds, getRecommendedAgents } = require("../lib/agents");
+const {
+  getRecommendedSkills,
+  parseSkillMetadata,
+  readSkillMetadata,
+  skillCatalog,
+} = require("../lib/skills");
 
 function makeTarget(t) {
   const target = fs.mkdtempSync(path.join(os.tmpdir(), "ai-repo-blueprint-"));
@@ -55,6 +64,36 @@ test("parses agent selections", () => {
   );
   assert.throws(() => parseAgentSelection("unknown", recommended));
   assert.throws(() => parseAgentSelection("all, reviewer", recommended));
+});
+
+test("recommends and parses skill selections", () => {
+  const recommended = getRecommendedSkills();
+
+  assert.deepEqual(recommended, Object.keys(skillCatalog));
+  assert.deepEqual(parseSkillSelection("recommended", recommended), recommended);
+  assert.deepEqual(parseSkillSelection("all", recommended), Object.keys(skillCatalog));
+  assert.deepEqual(parseSkillSelection("none", recommended), []);
+  assert.deepEqual(
+    parseSkillSelection("repo-cleanup, repo-cleanup", recommended),
+    ["repo-cleanup"]
+  );
+  assert.throws(() => parseSkillSelection("unknown", recommended));
+  assert.throws(() => parseSkillSelection("all, repo-cleanup", recommended));
+});
+
+test("validates required skill frontmatter", () => {
+  assert.deepEqual(
+    parseSkillMetadata("---\nname: example-skill\ndescription: Does useful work.\n---\n"),
+    { name: "example-skill", description: "Does useful work." }
+  );
+  assert.throws(
+    () => parseSkillMetadata("---\nname: Example Skill\ndescription: Useful.\n---\n"),
+    /Invalid or missing skill name/
+  );
+  assert.throws(
+    () => parseSkillMetadata("---\nname: example-skill\n---\n"),
+    /Invalid or missing skill description/
+  );
 });
 
 test("copies one shared source and native adapters for selected agents", (t) => {
@@ -115,12 +154,143 @@ test("supports no agents and provider filtering", (t) => {
     project: baseProject,
     providers: ["codex"],
     agents: [],
+    skills: [],
   });
 
   assert.equal(fs.existsSync(path.join(target, ".codex")), true);
   assert.equal(fs.existsSync(path.join(target, ".claude")), false);
   assert.equal(fs.existsSync(path.join(target, "docs", "ai", "agents")), false);
   assert.doesNotMatch(read(target, "AGENTS.md"), /Specialized agents/);
+});
+
+test("copies one shared skill and provider adapters without Gemini duplication", (t) => {
+  const target = makeTarget(t);
+  const skills = ["repo-cleanup"];
+
+  copyBlueprint({
+    targetDir: target,
+    project: baseProject,
+    providers: ["codex", "claude", "gemini"],
+    agents: [],
+    skills,
+  });
+
+  const sharedFile = path.join(
+    target,
+    "docs",
+    "ai",
+    "skills",
+    "repo-cleanup",
+    "SKILL.md"
+  );
+  const agentsAdapter = path.join(
+    target,
+    ".agents",
+    "skills",
+    "repo-cleanup",
+    "SKILL.md"
+  );
+  const claudeAdapter = path.join(
+    target,
+    ".claude",
+    "skills",
+    "repo-cleanup",
+    "SKILL.md"
+  );
+
+  assert.equal(fs.existsSync(sharedFile), true);
+  assert.equal(fs.existsSync(agentsAdapter), true);
+  assert.equal(fs.existsSync(claudeAdapter), true);
+  assert.equal(fs.existsSync(path.join(target, ".gemini", "skills")), false);
+
+  const sharedMetadata = readSkillMetadata(sharedFile, "repo-cleanup");
+  assert.deepEqual(
+    readSkillMetadata(agentsAdapter, "repo-cleanup"),
+    sharedMetadata
+  );
+  assert.deepEqual(
+    readSkillMetadata(claudeAdapter, "repo-cleanup"),
+    sharedMetadata
+  );
+  assert.match(read(target, path.relative(target, agentsAdapter)), /docs\/ai\/skills\/repo-cleanup\/SKILL\.md/);
+  assert.match(read(target, path.relative(target, claudeAdapter)), /docs\/ai\/skills\/repo-cleanup\/SKILL\.md/);
+
+  const claudeOnlyTarget = makeTarget(t);
+  copyBlueprint({
+    targetDir: claudeOnlyTarget,
+    project: baseProject,
+    providers: ["claude"],
+    agents: [],
+    skills: ["repo-cleanup"],
+  });
+  assert.equal(fs.existsSync(path.join(claudeOnlyTarget, ".agents")), false);
+  assert.equal(
+    fs.existsSync(
+      path.join(
+        claudeOnlyTarget,
+        ".claude",
+        "skills",
+        "repo-cleanup",
+        "SKILL.md"
+      )
+    ),
+    true
+  );
+});
+
+test("copies optional skill resources recursively", (t) => {
+  const source = makeTarget(t);
+  const target = makeTarget(t);
+  const docsFolder = path.join(source, "docs", "ai");
+  const skillFolder = path.join(docsFolder, "skills", "repo-cleanup");
+
+  fs.mkdirSync(skillFolder, { recursive: true });
+  fs.writeFileSync(path.join(source, "CHANGELOG.md"), "# Changelog\n");
+  for (const file of ["changelog.md", "qa.md", "security.md"]) {
+    fs.writeFileSync(path.join(docsFolder, file), `# ${file}\n`);
+  }
+  fs.writeFileSync(
+    path.join(skillFolder, "SKILL.md"),
+    "---\nname: repo-cleanup\ndescription: Clean a repository safely.\n---\n\nClean it.\n"
+  );
+  for (const [folder, file] of [
+    ["references", "guide.md"],
+    ["scripts", "check.js"],
+    ["assets", "template.txt"],
+  ]) {
+    fs.mkdirSync(path.join(skillFolder, folder), { recursive: true });
+    fs.writeFileSync(path.join(skillFolder, folder, file), `${folder}\n`);
+  }
+
+  copyBlueprint({
+    targetDir: target,
+    sourceDir: source,
+    project: baseProject,
+    providers: ["codex"],
+    agents: [],
+    skills: ["repo-cleanup"],
+  });
+
+  for (const [folder, file] of [
+    ["references", "guide.md"],
+    ["scripts", "check.js"],
+    ["assets", "template.txt"],
+  ]) {
+    assert.equal(
+      fs.existsSync(
+        path.join(
+          target,
+          "docs",
+          "ai",
+          "skills",
+          "repo-cleanup",
+          folder,
+          file
+        )
+      ),
+      true
+    );
+  }
 });
 
 test("all mode installs every agent for every provider", (t) => {
@@ -141,7 +311,20 @@ test("all mode installs every agent for every provider", (t) => {
     }
   }
 
-  assert.equal(fs.existsSync(path.join(target, ".agents")), false);
+  for (const skill of Object.keys(skillCatalog)) {
+    const sharedFile = path.join("docs", "ai", "skills", skill, "SKILL.md");
+    assert.equal(fs.existsSync(path.join(target, sharedFile)), true);
+    assert.equal(
+      fs.existsSync(path.join(target, ".agents", "skills", skill, "SKILL.md")),
+      true
+    );
+    assert.equal(
+      fs.existsSync(path.join(target, ".claude", "skills", skill, "SKILL.md")),
+      true
+    );
+  }
+
+  assert.equal(fs.existsSync(path.join(target, ".gemini", "skills")), false);
   assert.match(read(target, "AGENTS.md"), /security-reviewer/);
 });
 
@@ -169,4 +352,53 @@ test("agent files follow skip and force behavior", (t) => {
     force: true,
   });
   assert.match(read(target, relativeFile), /# Planner Agent/);
+});
+
+test("skill files follow skip and force behavior", (t) => {
+  const target = makeTarget(t);
+  const relativeFile = path.join(
+    "docs",
+    "ai",
+    "skills",
+    "repo-cleanup",
+    "SKILL.md"
+  );
+  const customSkill = `---
+name: repo-cleanup
+description: Custom cleanup instructions.
+---
+
+Keep this custom workflow.
+`;
+
+  fs.mkdirSync(path.dirname(path.join(target, relativeFile)), { recursive: true });
+  fs.writeFileSync(path.join(target, relativeFile), customSkill);
+
+  const skipped = copyBlueprint({
+    targetDir: target,
+    project: baseProject,
+    providers: ["codex"],
+    agents: [],
+    skills: ["repo-cleanup"],
+  });
+  assert.equal(read(target, relativeFile), customSkill);
+  assert.ok(skipped.skipped.includes("docs/ai/skills/repo-cleanup/SKILL.md"));
+  assert.match(
+    read(target, path.join(".agents", "skills", "repo-cleanup", "SKILL.md")),
+    /Custom cleanup instructions\./
+  );
+
+  copyBlueprint({
+    targetDir: target,
+    project: baseProject,
+    providers: ["codex"],
+    agents: [],
+    skills: ["repo-cleanup"],
+    force: true,
+  });
+  assert.match(read(target, relativeFile), /# Repository Cleanup/);
+  assert.doesNotMatch(
+    read(target, path.join(".agents", "skills", "repo-cleanup", "SKILL.md")),
+    /Custom cleanup instructions\./
+  );
 });

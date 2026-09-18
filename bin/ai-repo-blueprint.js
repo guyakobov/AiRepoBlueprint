@@ -4,6 +4,7 @@ const readline = require("node:readline/promises");
 const { stdin, stdout } = require("node:process");
 const { copyBlueprint, providerConfig } = require("../lib/copy-blueprint");
 const { agentCatalog, getRecommendedAgents } = require("../lib/agents");
+const { getRecommendedSkills, skillCatalog } = require("../lib/skills");
 
 function parseArgs(argv) {
   const args = [...argv];
@@ -51,6 +52,33 @@ function parseAgentSelection(value, recommendedAgents) {
 
   if (!requested.length || specialValues.length || invalidAgents.length) {
     throw new Error("Invalid agent selection");
+  }
+
+  return [...new Set(requested)];
+}
+
+function parseSkillSelection(value, recommendedSkills) {
+  const requested = splitList(value).map((skill) => skill.toLowerCase());
+
+  if (requested.length === 1 && requested[0] === "all") {
+    return Object.keys(skillCatalog);
+  }
+
+  if (requested.length === 1 && requested[0] === "none") {
+    return [];
+  }
+
+  if (requested.length === 1 && requested[0] === "recommended") {
+    return [...recommendedSkills];
+  }
+
+  const specialValues = requested.filter((skill) =>
+    ["all", "none", "recommended"].includes(skill)
+  );
+  const invalidSkills = requested.filter((skill) => !skillCatalog[skill]);
+
+  if (!requested.length || specialValues.length || invalidSkills.length) {
+    throw new Error("Invalid skill selection");
   }
 
   return [...new Set(requested)];
@@ -116,6 +144,28 @@ async function askAgents(rl, project) {
   }
 }
 
+async function askSkills(rl) {
+  const skillNames = Object.keys(skillCatalog).join(", ");
+  const recommendedSkills = getRecommendedSkills();
+
+  console.log(`Available skills: ${skillNames}`);
+  console.log(`Recommended: ${recommendedSkills.join(", ")}`);
+
+  while (true) {
+    const answer = await askText(
+      rl,
+      "Which skills should be installed? Use recommended, all, none, or comma separated names",
+      "recommended"
+    );
+
+    try {
+      return parseSkillSelection(answer, recommendedSkills);
+    } catch {
+      console.log("Enter recommended, all, none, or valid comma separated skill names.");
+    }
+  }
+}
+
 async function collectProjectConfig(targetDir) {
   const rl = readline.createInterface({ input: stdin, output: stdout });
 
@@ -177,12 +227,14 @@ async function collectProjectConfig(targetDir) {
       plugins,
     };
     const agents = await askAgents(rl, project);
+    const skills = await askSkills(rl);
 
     return {
       project,
       providers,
       selectedDocs,
       agents,
+      skills,
     };
   } finally {
     rl.close();
@@ -214,9 +266,11 @@ if (require.main === module) {
 
 module.exports = {
   askAgents,
+  askSkills,
   collectProjectConfig,
   main,
   parseAgentSelection,
   parseArgs,
+  parseSkillSelection,
   splitList,
 };

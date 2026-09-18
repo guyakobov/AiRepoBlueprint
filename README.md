@@ -24,6 +24,7 @@ The interactive setup asks about:
 - Privacy policy and terms of service.
 - Which LLM tools are used: Codex, Claude, Gemini, or a combination.
 - Which specialized agents should be installed.
+- Which reusable skills should be installed.
 
 It creates only the AI guidance and provider files needed for the answers.
 
@@ -59,6 +60,13 @@ Agent instructions have one shared source under `docs/ai/agents/`. Small native 
 - `.claude/agents/*.md`
 - `.gemini/agents/*.md`
 
+Skill instructions also have one shared source under `docs/ai/skills/<skill-name>/`. Thin adapters make the same skill available to each selected tool:
+
+- `.agents/skills/<skill-name>/SKILL.md` for Codex and Gemini.
+- `.claude/skills/<skill-name>/SKILL.md` for Claude.
+
+The shared skill folder can also contain optional `references/`, `scripts/`, and `assets/` folders.
+
 Available agents:
 
 - `planner`
@@ -71,3 +79,9 @@ Available agents:
 - `backend-expert`
 
 The agent question accepts `recommended`, `all`, `none`, or comma-separated names. Recommendations use the project type and database answers.
+
+Available skills:
+
+- `repo-cleanup`
+
+The skill question accepts `recommended`, `all`, `none`, or comma-separated names. Only skills explicitly added to this blueprint are offered.

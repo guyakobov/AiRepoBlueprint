@@ -2,6 +2,12 @@
 
 All meaningful code changes to this blueprint should be recorded here.
 
+## 1.9.0 - 2026-09-18
+
+- Description: Add shared project skill support, starting with the user-provided `repo-cleanup` skill and portable Codex, Claude, and Gemini adapters.
+- Commit: pending
+- Status: success
+
 ## 1.8.0 - 2026-08-22
 
 - Description: Add reusable role-based agents with shared instructions and native Codex, Claude, and Gemini adapters.
